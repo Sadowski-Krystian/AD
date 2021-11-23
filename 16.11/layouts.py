@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import filedialog
 import os
 
 def listVHost():
@@ -16,6 +17,22 @@ def setStatus(event):
 def quitApp(event):
     win.quit()
 
+def activateOne(event):
+    entF1.delete(0, END)
+    entF1.insert(0, entF2.get())
+    status["text"] = "Opuszczasz pole domena"
+
+def openFile():
+    status["text"] = "Otwieranie Pliku"
+    filename = filedialog.askopenfilename(initialdir="/", title="Wybierz plik", filetypes=[("pliki tekstowe", "*.txt")])
+
+def browseDir():
+    status["text"] = "kliknięto przegladaj"
+    dirName = filedialog.askdirectory()
+    entF5.delete(0, END)
+    entF5.insert(0, dirName)
+
+
 win = Tk()
 win.title('My First Py Layout')
 win.bind("<Motion>", mousePos)
@@ -24,9 +41,8 @@ win.bind("<Control_L>q", quitApp)
 status = Label(win, text="status")
 
 
-
-
 status.grid(row="3", column="2")
+
 
 
 
@@ -57,15 +73,22 @@ names = ('Nazwa pliku VHosta', 'Adres IP: numer portu', 'Nazwa Serwera (domena)'
 Label(top, text="konfiguracja").grid(row="1", column="1")
 Label(top, text="Zawartość").grid(row="1", column="2")
 
-
+entF1 = Entry(top)
+entF1.grid(row=2, column="2")
+entF2 = Entry(top)
+entF2.bind("<FocusOut>", activateOne)
+entF2.grid(row=3, column="2")
 for a in range(2, 10):
     Label(top, text=names[a-2]).grid(row=a, column="1")
 
-for c in range(2,10):   
+for c in range(4,10):   
     Entry(top).grid(row=c, column="2")
 
+
+entF5 = Entry(top)
+entF5.grid(row="5", column="2")
 for i in range(6,10):
-    Button(top, text='przeglądaj').grid(row=i, column="3")
+    Button(top, text='przeglądaj', command=browseDir).grid(row=i, column="3")
 top.grid(row="1", column="2")
 
 #top = Frame(win, height=200, background='yellow')
