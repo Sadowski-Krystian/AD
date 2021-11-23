@@ -9,11 +9,18 @@ def listVHost():
 def mousePos(event):
     status["text"] = "Pozycja Myszy: x="+str(event.x)+" Y="+str(event.y)
 
+def setStatus(event):
+    statText="Naciśnieto przycisk q"
+    status["text"] = statText
 
+def quitApp(event):
+    win.quit()
 
 win = Tk()
 win.title('My First Py Layout')
 win.bind("<Motion>", mousePos)
+win.bind("q", setStatus)
+win.bind("<Control_L>q", quitApp)
 status = Label(win, text="status")
 
 
