@@ -45,13 +45,6 @@ status.grid(row="3", column="2")
 
 
 
-
-
-
-
-
-
-
 left = Frame(win, height=500, width=200,)
 #lstVH = ('Nowy VHost', 'vhost-1', 'vhost-2', 'vhost-a', 'vhost-b', 'vhost-c')
 lstVH = listVHost()
