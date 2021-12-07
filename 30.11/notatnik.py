@@ -24,15 +24,20 @@ def lock():
 
 
 
+frame  = Frame(win)
+scb = Scrollbar(frame, orient="vertical")
 fileName = Label(win, text="text").pack()
 input = Entry(win)
 input.insert(0, "Nowy-Plik")
 input.pack()
-content = Label(win, text="treść").pack()
-input2 = Text(win, height=12)
+content = Label(frame, text="treść").pack()
+input2 = Text(frame, height=12, yscrollcommand=scb.set)
 input2.insert(1.0, "Przykładowa zawartość")
+
+scb.pack(side=RIGHT, fill=Y)
+scb.config(command=input2.yview)
 input2.pack()
 btn = Button(win, command=save, text="zapisz").pack()
 btnLock = Button(win, command=lock, text="Zablokuj/Odblokij").pack()
+frame.pack()
 mainloop()
-
