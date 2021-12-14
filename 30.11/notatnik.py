@@ -90,6 +90,16 @@ def unTar():
         for file in uzi.getnames():
             uzi.extract(file, "out")
 
+v= StringVar(win, '1')
+def pickArcMeth():
+    global arcMeth
+    arcMeth = v.get()
+
+def archiveIt():
+    if arcMeth=="tar":
+        tarIt()
+    if arcMeth=="zip":
+        zipIt()
 
 frame  = Frame(win)
 scb = Scrollbar(frame, orient="vertical")
@@ -104,10 +114,13 @@ input2.insert(1.0, "Przykładowa zawartość")
 scb.pack(side=RIGHT, fill=Y)
 scb.config(command=input2.yview)
 input2.pack()
+
+for (text, value) in radios.items():
+    Radiobutton(win,text=text,variable=v, value=value, command=pickArcMeth).pack()
 btn = Button(win, command=save, text="zapisz").pack()
 btn = Button(win, command=read, text="Otwórz").pack()
-btn = Button(win, command=tarIt, text="Archwyizuj").pack()
-btn = Button(win, command=unTar, text="Wypakuj").pack()
+btn = Button(win, command=archiveIt, text="Archwyizuj").pack()
+btn = Button(win, command=unZip, text="Wypakuj").pack()
 btnLock = Button(win, command=lock, text="Zablokuj/Odblokij").pack()
 frame.pack()
 mainloop()
