@@ -1,8 +1,12 @@
-from os import name, write
+from os import *
+import os
 import re
+import tarfile
 from tkinter import * 
 from re import *
-
+from zipfile import *
+import zipfile
+from tarfile import *
 win = Tk()
 win.geometry("320x480")
 
@@ -26,6 +30,9 @@ def lock():
 
 patterns = ("<VirtualHost", "DocumentRoot", "ServerAdmin", "ServerName", "ErrorLog", "CustomLog", "<Directory")
 cmds = {"vHost":"", "docRot":"", "srvAdm":"", "srvNam":"", "errLog":"", "cstLog":"", "dir":""}
+radios = {"TAR": "tar", "ZIP": "zip"}
+archNameZip = "zipArch.zip"
+archNameTar = "tarArch.tar"
 cmdKeys = list(cmds.keys())
 def read():
     s1 = input.get()
@@ -51,6 +58,38 @@ def parseLine(ic, line):
         print(m.group(3))
 
 
+def zipIt():
+    with zipfile.ZipFile(archNameZip, 'w') as tf:
+        files = os.listdir('.')
+        for file in files:
+            if file!=archNameZip:
+                tf.write(file)
+        for fin in tf.namelist():
+            print("Dodano %s" % fin)
+        tf.close
+
+def unZip():
+    print("unzip")
+    with zipfile.ZipFile(archNameZip, 'r') as uzi:
+        for file in uzi.namelist():
+            uzi.extract(file, "out")
+
+def tarIt():
+    with tarfile.open(archNameTar, 'w') as tf:
+        files = os.listdir('.')
+        for file in files:
+            if file!=archNameTar:
+                tf.add(file)
+        for fin in tf.getnames():
+            print("Dodano %s" % fin)
+        tf.close
+
+def unTar():
+    print("unTar")
+    with tarfile.open(archNameTar, 'r') as uzi:
+        for file in uzi.getnames():
+            uzi.extract(file, "out")
+
 
 frame  = Frame(win)
 scb = Scrollbar(frame, orient="vertical")
@@ -67,6 +106,8 @@ scb.config(command=input2.yview)
 input2.pack()
 btn = Button(win, command=save, text="zapisz").pack()
 btn = Button(win, command=read, text="Otwórz").pack()
+btn = Button(win, command=tarIt, text="Archwyizuj").pack()
+btn = Button(win, command=unTar, text="Wypakuj").pack()
 btnLock = Button(win, command=lock, text="Zablokuj/Odblokij").pack()
 frame.pack()
 mainloop()
