@@ -34,6 +34,8 @@ class App(QWidget):
 		btnStdBy = QPushButton("Stand By")
 		btnHbrt = QPushButton("Hibernate")
 		btnStart.clicked.connect( self.handleClick )
+		btnStart.released.connect( lambda : self.pc1.setText("Zwolniony") )
+		btnShtdw.clicked.connect( self.appClose )
 
 		tools.addWidget( btnStart )
 		tools.addWidget( btnShtdw )
@@ -57,6 +59,17 @@ class App(QWidget):
 		print(nadawca.text())
 		lbl = self.pc1.text()
 		self.pc1.setText(lbl+": "+nadawca.text())
+
+	def appClose(self):
+		self.close()
+
+	def closeEvent(self, ev):
+		resp = QMessageBox.question(self, "Komunikat", "Czy aby napewno zakończyć", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+		if resp == QMessageBox.Yes:
+			ev.accept()
+		else:
+			ev.ignore()
+
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
